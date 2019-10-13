@@ -19,12 +19,7 @@
                     </button>
                 </div>
             <?php endif; ?>
-        </div>
-
-        <div class="form-group">
-            <label class="text-success" for="file">Pilih Gambar Podcast</label>
-            <input class="file" type="file" accept="image/*" name="podcast_image">
-        </div>
+        </div>        
 
         <div class="form-group">
             <label class="text-success" for="file">Pilih File Podcast</label>
@@ -37,13 +32,23 @@
         </div> 
 
         <div class="form-group">
-            <label class="text-success">Album</label>
-            <select class="form-control" name="podcast_album">
-                <option value="" selected disabled>pilih album</option>
+            <label class="text-success">Kategori Podcast</label>
+            <select class="form-control" name="podcast_category">
+                <option value="" selected disabled>pilih Kategori podcast</option>
                 <option value="fabels">Fabels</option>             
                 <option value="folklore">Folklore</option>
                 <option value="education">Education</option>
                 <option value="religion">Religion</option>
+            </select>
+        </div>
+
+        <div class="form-group">            
+            <label class="text-success">Album</label>
+            <select class="form-control" name="podcast_album">
+                <option value="" selected disabled>pilih album</option>
+                <?php foreach($albums as $album): ?>                
+                    <option value="<?=$album->album_id?>,<?=$album->title?>"><?=$album->title?></option>             
+                <?php endforeach;?>
             </select>
         </div>
 

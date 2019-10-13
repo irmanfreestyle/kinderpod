@@ -11,12 +11,12 @@
       <span>Upload Podcast</span>
     </a>         
   </li>
-  <!-- <li>
-    <a href="<?php echo base_url() ?>admin/changePasswordPage">
-      <i class="fa fa-key"></i>
-      <span>Ubah Password Admin</span>
+  <li>
+    <a href="<?php echo base_url() ?>admin/pageAlbum">
+      <i class="fa fa-music"></i>
+      <span>Album</span>
     </a>         
-  </!--> -->
+  </!-->
   <li>
     <a href="<?php echo base_url() ?>admin/logout" class="text-red">
       <i class="fa fa-sign-out"></i>

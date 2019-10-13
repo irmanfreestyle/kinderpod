@@ -15,11 +15,29 @@ class Admin extends CI_Controller {
             redirect(base_url().'admin/loginPage');
 		}
 		
-		$data['title'] = 'Dashboard';	
+		$data['title'] = 'List Podcast';	
 		$data['content'] = "admin/dashboard";		
 
 		$this->db->order_by('podcast_id', 'DESC');
 		$data['podcasts'] = $this->db->get('podcasts')->result();
+		$this->load->view('admin/template', $data);	
+	}
+
+	public function pageUpload() {
+        $data['title'] = 'Upload Podcast';	
+		$data['content'] = "admin/pageUpload";		
+
+		$this->db->order_by('album_id', 'desc');
+		$data['albums'] = $this->db->get('albums')->result();
+		$this->load->view('admin/template', $data);	
+	}
+
+	public function pageAlbum() {
+		$data['title'] = 'Album';	
+		$data['content'] = "admin/pageAlbum";	
+
+		$this->db->order_by('album_id', 'desc');
+		$data['albums'] = $this->db->get('albums')->result();
 		$this->load->view('admin/template', $data);	
 	}
 	
@@ -43,33 +61,22 @@ class Admin extends CI_Controller {
 	function logout() {
         unset($_SESSION['loged_in']);
         redirect(base_url().'admin/loginPage');
-    }
-    
-    public function pageUpload() {
-        $data['title'] = 'Upload Podcast';	
-		$data['content'] = "admin/pageUpload";		
-		$this->load->view('admin/template', $data);	
-	}
+    }    
 	
-	public function uploadPodcast() {
-		$podcast_title = $this->input->post('podcast_title');
-		$podcast_album = $this->input->post('podcast_album');
+	public function uploadPodcast() {		
+		
+		$podcast_title = $this->input->post('podcast_title');		
 		$podcast_info = $this->input->post('podcast_info');		
 		$podcast_announcer = $this->input->post('podcast_announcer');
-
-		$podcast_image = "";		
+		$album_id = explode(",", $this->input->post('podcast_album'))[0];
+		$album_title = explode(",", $this->input->post('podcast_album'))[1];
+		
 		$podcast_file = "";						
 
 		$config['upload_path'] = './upload/';
 		$config['allowed_types'] = '*';
 		$config['encrypt_name'] = true;                                    
-		$this->load->library('upload', $config);
-
-		if ($this->upload->do_upload('podcast_image')) {
-			$podcast_image = $this->upload->data("file_name");
-		} else {
-			die();
-		}
+		$this->load->library('upload', $config);		
 
 		if ($this->upload->do_upload('podcast_file')) {
 			$podcast_file = $this->upload->data("file_name");
@@ -80,10 +87,10 @@ class Admin extends CI_Controller {
 		$insert = $this->db->insert('podcasts', [
 			'podcast_id' => '',
 			'podcast_title' => $podcast_title,
-			'podcast_info' => $podcast_info,
-			'image' => $podcast_image,
+			'podcast_info' => $podcast_info,		
+			'album_id_fk' => $album_id,
 			'file' => $podcast_file,
-			'album' => $podcast_album,
+			'album_title' => $album_title,
 			'podcast_announcer' => $podcast_announcer
 		]);	
 
@@ -99,13 +106,11 @@ class Admin extends CI_Controller {
 
 	public function deletePodcast() {
 		$podcast_id = $this->input->get('id');
-		$file = $this->input->get('file');
-		$image = $this->input->get('image');
+		$file = $this->input->get('file');		
 
 		$this->db->delete('podcasts', ['podcast_id' => $podcast_id]);
 		
-		unlink("./upload/".$file);		
-		unlink("./upload/".$image);
+		unlink("./upload/".$file);				
 
 		redirect(base_url().'admin/');
 	}

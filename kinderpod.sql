@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 13, 2019 at 05:33 AM
+-- Generation Time: Oct 13, 2019 at 05:38 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.8
 
@@ -43,6 +43,27 @@ INSERT INTO `admin` (`id`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `albums`
+--
+
+CREATE TABLE `albums` (
+  `album_id` int(11) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `image` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `albums`
+--
+
+INSERT INTO `albums` (`album_id`, `title`, `image`) VALUES
+(7, 'Si Kancil', 'fb0092fa892f6df49a789975c2da99ca.png'),
+(10, 'Alif anak baik', 'f7ef347c29e58fb2207bee816e7eaf03.jpg'),
+(14, 'Malam Gelap', 'f8e1011a2dba132f162b758347e5b598.jpg');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `podcasts`
 --
 
@@ -50,9 +71,9 @@ CREATE TABLE `podcasts` (
   `podcast_id` int(11) NOT NULL,
   `podcast_title` varchar(50) NOT NULL,
   `podcast_info` varchar(500) NOT NULL,
-  `image` varchar(200) NOT NULL,
+  `album_id_fk` int(11) NOT NULL,
   `file` varchar(200) NOT NULL,
-  `album` varchar(20) NOT NULL,
+  `album_title` varchar(50) NOT NULL,
   `podcast_announcer` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -60,10 +81,9 @@ CREATE TABLE `podcasts` (
 -- Dumping data for table `podcasts`
 --
 
-INSERT INTO `podcasts` (`podcast_id`, `podcast_title`, `podcast_info`, `image`, `file`, `album`, `podcast_announcer`) VALUES
-(13, 'Drum 2', 'Seorang Kakak yang sangat menyayangi adiknya bermain di rumah.\r\n\r\nSang adik adalah seorang yang sangat periang dan selalu\r\n\r\nbersemangat', 'fbeb7b73e85fd46375105fc1e97b0a24.jpg', '919e68fdc3acb0eeef76954f22f5c442.mp3', 'folklore', 'Budi'),
-(15, 'Abstrak Podcast', 'wow podcast_announcerpodcast_announcer podcast_announcer', '880432a288adcafa2242fc9ffc4b9aed.jpg', '5d2a2d880f1a2d1eb114e6bd39c65cf8.mp3', 'fabels', 'Samsul'),
-(16, 'Kinderpod Podcast Title', 'This is about podcast', 'c0868d20df8aca330212f24f554c90e2.jpg', 'a9cf6c5a17648cb4a921d638e2d69905.mp3', 'education', 'Surya Permana');
+INSERT INTO `podcasts` (`podcast_id`, `podcast_title`, `podcast_info`, `album_id_fk`, `file`, `album_title`, `podcast_announcer`) VALUES
+(17, 'Kancil Part 1', 'Si kancil anak baik part 1', 7, '510db3403c47c54de47adc4b134179a5.mp3', 'Si Kancil', 'Ahmad'),
+(20, 'Email Ku', 'Alif anak yang baik sandkand adknakd akdnkand akdkandk', 10, '97d053dd4127ae9897fcb1c78c7b19e5.mp3', 'Alif anak baik', 'Saidinar');
 
 -- --------------------------------------------------------
 
@@ -90,17 +110,24 @@ ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `albums`
+--
+ALTER TABLE `albums`
+  ADD PRIMARY KEY (`album_id`);
+
+--
 -- Indexes for table `podcasts`
 --
 ALTER TABLE `podcasts`
-  ADD PRIMARY KEY (`podcast_id`);
+  ADD PRIMARY KEY (`podcast_id`),
+  ADD KEY `podcasts_ibfk_1` (`album_id_fk`);
 
 --
 -- Indexes for table `rating`
 --
 ALTER TABLE `rating`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `podcast_id` (`podcast_id`);
+  ADD KEY `rating_ibfk_1` (`podcast_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -113,10 +140,16 @@ ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `albums`
+--
+ALTER TABLE `albums`
+  MODIFY `album_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
 -- AUTO_INCREMENT for table `podcasts`
 --
 ALTER TABLE `podcasts`
-  MODIFY `podcast_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `podcast_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `rating`
@@ -129,10 +162,16 @@ ALTER TABLE `rating`
 --
 
 --
+-- Constraints for table `podcasts`
+--
+ALTER TABLE `podcasts`
+  ADD CONSTRAINT `podcasts_ibfk_1` FOREIGN KEY (`album_id_fk`) REFERENCES `albums` (`album_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `rating`
 --
 ALTER TABLE `rating`
-  ADD CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`podcast_id`) REFERENCES `podcasts` (`podcast_id`);
+  ADD CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`podcast_id`) REFERENCES `podcasts` (`podcast_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

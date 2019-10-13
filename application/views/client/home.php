@@ -196,7 +196,7 @@
             <h4>Coporate Address</h4>
             <p style="line-height:30px;">
                 Ruang & Tempo Coworking Space <br>
-                Gedung Tempo, Jl. Palmerah Barat No.8 RT 3/ RW 5 <br>
+                Gd. Tempo lt. 8 <br>
                 Grogol Utara, Kebayoran Lama, Jakarta Selatan <br> <br>
                 Phone: +62 878 7432 5228 / +62 812 9820 6571 <br>
                 Email: zee@kinderpod.id/  qpradifa@kinderpod.id
