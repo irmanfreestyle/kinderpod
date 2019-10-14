@@ -26,6 +26,26 @@
         display: none!important;        
     }
 
+    .active-podcast {        
+        border: 1px solid #1D4598;
+        box-sizing: border-box!important;
+        box-shadow: 1px 2px 4px rgba(0,0,0,0.5);
+    }
+
+
+
+    .bg {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        z-index: 1;        
+        opacity: 0.6;
+    }
+    .bg:nth-child(1) {top: 0px;left: -180px;transform: rotate(-30deg)}
+    .bg:nth-child(2) {top: 0px;right: 220px;transform: rotate(30deg)}
+    .bg:nth-child(3) {bottom: 0px;left: -180px;transform: rotate(30deg)}
+    .bg:nth-child(4) {bottom: 0px;right: 220px;transform: rotate(-30deg)}
+
 </style>
 
 
@@ -34,7 +54,7 @@
         <div class="row align-items-center">
             <div class="col-sm-12 col-md-7">
                 <div class="d-flex align-items-center">
-                    <div class="thumbnail-image my-1 mx-0" style="background-image:url('<?=base_url()?>upload/<?=$podcast->image?>')"></div>                                       
+                    <div class="thumbnail-image my-1 mx-0" style="background-image:url('<?=base_url()?>upload/<?=$album->image?>')"></div>                                       
                 </div>                                 
             </div>
 
@@ -49,48 +69,80 @@
                         <i class="fa fa-share-alt"></i>
                         Share
                     </button>
-                    <a href="<?=base_url()?>upload/<?=$podcast->file?>" type="button" class="btn btn-secondary btn-block">
+                    <a download href="<?=base_url()?>upload/<?=$current_podcast->file?>" type="button" class="btn btn-secondary btn-block">
                         <i class="fa fa-download"></i>
                         Download
                     </a>
                 </div>
             </div>
 
-            <div class="col-sm12 col-md-8">
-                <div class="text-primary"><?=$podcast->podcast_title?></div>
-                <div class="text-secondary">Podcaster #<?=$podcast->podcast_announcer?></div>  
+            <div class="col-sm12 col-md-7">
+                <div class="text-primary"><?=$album->title.": ".$current_podcast->podcast_title?></div>
+                <div class="text-secondary">Podcaster #<?=$current_podcast->podcast_announcer?></div>   
+                <br>
                 <audio controls style="width:100%" id="podcast_play">
-                    <source src="<?=base_url()?>upload/<?=$podcast->file?>" type="audio/ogg">
-                    <source src="<?=base_url()?>upload/<?=$podcast->file?>" type="audio/mpeg">
-                    <source src="<?=base_url()?>upload/<?=$podcast->file?>" type="audio/mp3">
-                    <source src="<?=base_url()?>upload/<?=$podcast->file?>" type="audio/mp4">
+                    <source src="<?=base_url()?>upload/<?=$current_podcast->file?>" type="audio/ogg">
+                    <source src="<?=base_url()?>upload/<?=$current_podcast->file?>" type="audio/mpeg">
+                    <source src="<?=base_url()?>upload/<?=$current_podcast->file?>" type="audio/mp3">
+                    <source src="<?=base_url()?>upload/<?=$current_podcast->file?>" type="audio/mp4">
                     Your browser does not support the audio element.
                 </audio> 
             </div>
-            <div class="col-sm-12 col-md-4"></div>
+            <div class="col-sm-12 col-md-5"></div>            
+        </div>
 
+        <div class="row my-4" style="position: relative;">
+            <img class="bg" src="<?=base_url()?>assets/images/ice-cream-cup.png" alt="ice-cream-cup">
+            <img class="bg" src="<?=base_url()?>assets/images/popsicle.png" alt="popsicle">    
+            <img class="bg" src="<?=base_url()?>assets/images/popsicle.png" alt="popsicle">
+            <img class="bg" src="<?=base_url()?>assets/images/ice-cream-cup.png" alt="ice-cream-cup">    
 
-            <div class="col-sm12 col-md-8">
-                <br><br>
+            <div class="col-sm-12 col-md-7" style="z-index:999;">                
                 <h5>Episode Info</h5>
                 <p>
-                    <?=$podcast->podcast_info?>
-                </p>
+                    <?=$current_podcast->podcast_info?>
+                </p>      
                 <br><br>
+                
+                <h5>Episode Lainnya</h5>
+                <ul class="list-group">                    
+                    <?php foreach($podcasts as $index=>$podcast): ?>
+                        <a href="<?=base_url()?>podcast/album/<?=$album->album_id."/".$podcast->podcast_id?>">
+                            <li class="list-group-item d-flex align-items-center my-1 
+                                <?=($podcast_id==$podcast->podcast_id) ? 'active-podcast' : '' ?>
+                            ">
+                                <div class="d-flex flex-column w-100">
+                                    <span><?=$podcast->podcast_title?></span>
+                                    <small class="text-secondary">Podcaster #<?=$podcast->podcast_announcer?></small>                            
+                                </div>                                 
+                                <span>
+                                    <i style="font-size:25px" class="text-primary fa fa-play-circle"></i>
+                                </span>                                                                                        
+                            </li>       
+                        </a>       
+                    <?php endforeach; ?>      
+                </ul>
 
+                <br><br>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalReview">
                     Beri Ulasan
                 </button>
-                <div class="py-3 px-3 my-2" style="background:#ddd;">
-                    <?php for($i=0;$i<5;$i++):?>
-                        <i class="fa fa-star text-warning" style="font-size:19px"></i>
-                    <?php endfor; ?>
-                    <p>
-                        Podcastnya keren sangat menginspirasi, Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium distinctio debitis dolores veritatis.
-                    </p>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-4"></div>
+                <?php if(empty($reviews)): ?>
+                    <div class="py-2 text-secondary">Belum ada review untuk podcast <?=$current_podcast->podcast_title?></div>
+                <?php endif; ?>
+                
+                <?php foreach($reviews as $review): ?>
+                    <div class="py-3 px-3 my-2" style="background:#ddd;">
+                        <div><b><?=$review->reviewer?></b></div>
+                        <?php for($i=0;$i<$review->rate;$i++):?>
+                            <i class="fa fa-star text-warning" style="font-size:19px"></i>
+                        <?php endfor; ?>
+                        <p>
+                            <?=$review->message?>
+                        </p>
+                    </div>                          
+                <?php endforeach; ?>
+            </div>            
         </div>
     </div>
 </div>
@@ -107,7 +159,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="post" action="<?=base_url()?>podcast/review/<?=$podcast->podcast_id?>">
+      <form method="post" action="<?=base_url()?>podcast/review/<?=$album->album_id.'/'.$current_podcast->podcast_id?>">
         <div class="modal-body">
             <div class="form-group">
                 <label for="exampleInputEmail1">Rating</label>
@@ -115,12 +167,12 @@
                 <?php for($i=0;$i<5;$i++):?>
                     <i onclick="rate(<?=$i?>)" class="rating-star fa fa-star text-secondary" style="font-size:19px"></i>
                 <?php endfor; ?>
-                <input type="hidden" name="rating" value="">
+                <input type="hidden" required id="rating" name="rating" value="">
             </div>
             
             <div class="form-group">
                 <label for="exampleInputEmail1">Nama</label>
-                <input type="text" class="form-control" placeholder="Masukan Nama" value="anonim" name="reviewer_name">
+                <input type="text" required class="form-control" placeholder="Masukan Nama" value="anonim" name="reviewer_name">
             </div>
             <div class="form-group">
                 <label>Pesan</label>
@@ -171,5 +223,18 @@
         for(i=0;i<=index;i++) {            
             stars[i].classList.add('text-warning');
         }
+
+        document.getElementById("rating").value = index+1
     }    
+
+
+    // CALCULATE PODCAST DURATION
+    // function readableDuration(seconds) {
+    //     sec = Math.floor( seconds );    
+    //     min = Math.floor( sec / 60 );
+    //     min = min >= 10 ? min : '0' + min;    
+    //     sec = Math.floor( sec % 60 );
+    //     sec = sec >= 10 ? sec : '0' + sec;    
+    //     return min + ':' + sec;
+    // }    
 </script>

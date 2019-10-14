@@ -33,7 +33,7 @@
         width: 100%;
         background-size: cover;
         background-repeat: no-repeat;
-        background-position-y: -150px;
+        background-position-y: center;
         height: 150px;
         border-radius: 20px;
     }
@@ -48,7 +48,8 @@
         position: absolute;
         width: 150px;
         height: 150px;
-        z-index: 1;        
+        z-index: 1;       
+        opacity: 0.7; 
     }
     #contact img:nth-child(1) {top: 0px;left: 30px;transform: rotate(-30deg)}
     #contact img:nth-child(2) {top: 0px;right: 30px;transform: rotate(30deg)}
@@ -101,6 +102,48 @@
         min-width: 700px;                
     }
     
+
+
+    .owl-carousel {
+        position: relative!important;
+    }
+    .owl-nav {        
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        top: 40%;
+        width: 100%;        
+        height: 0px!important;
+    }
+    .owl-nav button {
+        outline: none!important;
+    }
+    .owl-nav button span{        
+        color: white!important;
+        font-size: 60px!important;
+        padding: 0 20px;
+        font-weight: 200px!important;
+    }
+
+
+    .owl-dots {
+        display: flex;
+        justify-content: center;          
+        position: absolute;
+        bottom: 8%;
+        width: 100%;      
+    }
+    .owl-dots .active {
+        background: blue!important;
+    }
+
+    .owl-dots button {        
+        margin: 0px 10px;
+        width: 15px!important;
+        height: 15px!important;
+        border-radius: 100%!important;
+        background: grey!important;
+    }
     
 </style>
 
@@ -113,7 +156,7 @@
       <h1>Welcome to the Education Podcast for Kids</h1>
       <h4>Listen to Indonesian Fabels, Folklore, Religion & More.</h4>
   </div>  
-  <div class="owl-carousel-item text-light pt-5">
+  <div class="owl-carousel-item text-light">
       <h1>About Us</h1>
       <h5 class="text-center" style="width:800px;max-width:100%;line-height:30px;">
         KinderPod adalah Podcast edukasi untuk mencerdaskan anak-anak Indonesia. <br>
@@ -156,12 +199,12 @@
 <!-- PODCAST LIST -->
 <div class="container my-3">
     <div class="row">
-        <?php $i=1; foreach($podcasts as $podcast): ?>
+        <?php $i=1; foreach($albums as $album): ?>
             <div class="col-sm-12 col-md-6 py-2 px-2 wrapper-podcast">            
-                <div class="thumbnail-image my-1" style="position:relative;background-image:url('<?=base_url()?>upload/<?=$podcast->image?>')">
+                <div class="thumbnail-image my-1" style="position:relative;background-image:url('<?=base_url()?>upload/<?=$album->image?>')">
                 
                     <div class="zoom-view d-flex justify-content-center align-items-center">
-                        <a href="<?=base_url()?>podcast/detail/<?=$podcast->podcast_id?>" class="px-3">
+                        <a href="<?=base_url()?>podcast/album/<?=$album->album_id?>/<?=$album->podcasts[$i]->podcast_id?>" class="px-3">
                             <i class="fa text-primary fa-play-circle" style="font-size:60px"></i>
                         </a>
                         <a href="#" class="px-3">
@@ -170,13 +213,13 @@
                         <a href="#" class="px-3">
                             <i class="fa fa-share-square-o text-white" style="font-size:60px"></i>
                         </a>
-                        <a href="<?=base_url()?>upload/<?=$podcast->file?>" download class="px-3">
+                        <a href="" class="px-3">
                             <i class="fa fa-download text-white" style="font-size:60px"></i>
                         </a>
                     </div>
-                </div>
-                <div class="text-primary"><?=$podcast->podcast_title?></div>
-                <div class="text-secondary">Podcaster #<?=$podcast->podcast_announcer?></div>
+                </div>                
+                <div class="text-primary"><span class="font-weight-bold"><?=$album->title?></span>: <?=$album->podcasts[$i]->podcast_title?></div>
+                <div class="text-secondary">Podcaster #<?=$album->podcasts[$i]->podcast_announcer?></div>
             </div>
         <?php endforeach; ?>
     </div>
@@ -213,8 +256,12 @@
     $(document).ready(function() {
         $(".owl-carousel").owlCarousel({
             items: 1,                       
-            dots: false, 
-            singleItem: true
+            dots: true, 
+            nav: true,
+            singleItem: true,
+            autoplay: true,
+            loop: true,
+            autoplayHoverPause: true            
         });
     })
 
@@ -229,7 +276,7 @@
 
             window.scrollTo({
                 top: target.offsetTop - 150,
-                behavior: 'smooth',
+                behavior: 'smooth'                
             })
         });
     })

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 13, 2019 at 05:38 PM
+-- Generation Time: Oct 14, 2019 at 08:02 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.8
 
@@ -69,7 +69,7 @@ INSERT INTO `albums` (`album_id`, `title`, `image`) VALUES
 
 CREATE TABLE `podcasts` (
   `podcast_id` int(11) NOT NULL,
-  `podcast_title` varchar(50) NOT NULL,
+  `podcast_title` varchar(100) NOT NULL,
   `podcast_info` varchar(500) NOT NULL,
   `album_id_fk` int(11) NOT NULL,
   `file` varchar(200) NOT NULL,
@@ -82,8 +82,11 @@ CREATE TABLE `podcasts` (
 --
 
 INSERT INTO `podcasts` (`podcast_id`, `podcast_title`, `podcast_info`, `album_id_fk`, `file`, `album_title`, `podcast_announcer`) VALUES
-(17, 'Kancil Part 1', 'Si kancil anak baik part 1', 7, '510db3403c47c54de47adc4b134179a5.mp3', 'Si Kancil', 'Ahmad'),
-(20, 'Email Ku', 'Alif anak yang baik sandkand adknakd akdnkand akdkandk', 10, '97d053dd4127ae9897fcb1c78c7b19e5.mp3', 'Alif anak baik', 'Saidinar');
+(17, 'Anak kampus episode 2 - masak air', 'Si kancil anak baik part 1', 10, '510db3403c47c54de47adc4b134179a5.mp3', 'Si Kancil', 'Ahmad'),
+(20, 'Email Ku', 'Alif anak yang baik sandkand adknakd akdnkand akdkandk', 7, '97d053dd4127ae9897fcb1c78c7b19e5.mp3', 'Alif anak baik', 'Saidinar'),
+(21, 'Malam Gelap Sekali', 'INi podcast pertama saya', 14, '50538cacf70f734b367b37da42034e2a.mp3', 'Malam Gelap', 'Admin'),
+(22, 'Anak Kampus episode 1', 'Alif anak baik yang berkuliah di pagi hari', 10, '3c89a1a11b689ffb5f4d67b50c009ae0.mp3', 'Alif anak baik', 'Admin'),
+(23, 'Pantai yang indah', 'Pantaiku adalah pantai indonesia, ada adakdadna andajndja dndjenjf ksndkndk adknadkn', 14, '3c89a1a11b689ffb5f4d67b50c009ae0.mp3', 'Malam Gelap', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -98,6 +101,17 @@ CREATE TABLE `rating` (
   `rate` int(11) NOT NULL,
   `message` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `rating`
+--
+
+INSERT INTO `rating` (`id`, `podcast_id`, `reviewer`, `rate`, `message`) VALUES
+(1, 17, 'Hacker', 4, 'Good Podcast...'),
+(2, 17, 'anonim', 5, 'Wow is the best'),
+(3, 22, 'anonim', 2, 'Lumayan, tp suaranya kok kecil ya'),
+(4, 23, 'Surya', 5, 'Keren nih podcast, ditunggu podcast selanjutnya'),
+(5, 23, 'anonim', 4, 'Ntaps, bintang 4 gan');
 
 --
 -- Indexes for dumped tables
@@ -149,13 +163,13 @@ ALTER TABLE `albums`
 -- AUTO_INCREMENT for table `podcasts`
 --
 ALTER TABLE `podcasts`
-  MODIFY `podcast_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `podcast_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables

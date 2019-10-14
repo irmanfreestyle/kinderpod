@@ -26,13 +26,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-            <a class="nav-link text-light" href="#">ABOUT US</a>
+            <a class="nav-link text-light" href="<?=base_url()?>">ABOUT US</a>
         </li>      
         <li class="nav-item">
-            <a class="nav-link text-light page" href="#trending">TRENDING</a>
+            <a class="nav-link text-light page" href="<?=base_url()?>#trending">TRENDING</a>
         </li>      
         <li class="nav-item">
-            <a class="nav-link text-light page" href="#contact">CONTACT</a>
+            <a class="nav-link text-light page" href="<?=base_url()?>#contact">CONTACT</a>
         </li>      
         <li class="nav-item">
             <a class="nav-link">
