@@ -217,6 +217,7 @@
 <div class="container my-3">
     <div class="row">
         <?php $i=0; foreach($albums as $album): ?>
+            <?php if(count($album->podcasts) > 1): ?>
             <div class="col-sm-12 col-md-6 py-2 px-2 wrapper-podcast">            
                 <div class="thumbnail-image my-1" style="position:relative;background-image:url('<?=base_url()?>upload/<?=$album->image?>')">
                 
@@ -249,6 +250,7 @@
                 <div class="text-primary"><span class="font-weight-bold"><?=$album->title?></span>: <?=$album->podcasts[1]->podcast_title?></div>
                 <div class="text-secondary">Podcaster #<?=$album->podcasts[1]->podcast_announcer?></div>
             </div>
+            <?php endif; ?>
         <?php endforeach; ?>
     </div>
 </div>
