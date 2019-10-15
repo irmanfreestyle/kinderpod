@@ -6,17 +6,6 @@
         }
     }
 
-
-    .thumbnail-image {
-        width: 100%;
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;        
-        height: 230px;
-        border-radius: 20px;        
-        margin-right: 20px;
-    }
-
     .control-btn:hover {
         transform: rotate(10deg);
         cursor: pointer;
@@ -42,9 +31,9 @@
         opacity: 0.6;
     }
     .bg:nth-child(1) {top: 0px;left: -180px;transform: rotate(-30deg)}
-    .bg:nth-child(2) {top: 0px;right: 220px;transform: rotate(30deg)}
+    .bg:nth-child(2) {top: 0px;right: 200px;transform: rotate(30deg)}
     .bg:nth-child(3) {bottom: 0px;left: -180px;transform: rotate(30deg)}
-    .bg:nth-child(4) {bottom: 0px;right: 220px;transform: rotate(-30deg)}
+    .bg:nth-child(4) {bottom: 0px;right: 200px;transform: rotate(-30deg)}
 
 </style>
 
@@ -53,8 +42,8 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-sm-12 col-md-7">
-                <div class="d-flex align-items-center">
-                    <div class="thumbnail-image my-1 mx-0" style="background-image:url('<?=base_url()?>upload/<?=$album->image?>')"></div>                                       
+                <div class="d-flex align-items-center">                    
+                    <img width="100%" style="max-height:230px;border-radius:20px;" src="<?=base_url()?>upload/<?=$album->image?>" alt="<?=$album->title?>">                                    
                 </div>                                 
             </div>
 
@@ -65,7 +54,7 @@
 
             <div class="col-sm-12 col-md-3">
                 <div>
-                    <button type="button" class="btn btn-warning btn-block">
+                    <button type="button" class="btn btn-warning btn-block" data-toggle="modal" data-target="#modalShare">
                         <i class="fa fa-share-alt"></i>
                         Share
                     </button>
@@ -188,6 +177,11 @@
   </div>
 </div>
 <!-- END MODAL -->
+
+
+<!-- SHARE MODAL -->
+<?php $this->load->view('client/shareModal'); ?>
+<!-- END SHARE MODAL -->
 
 
 

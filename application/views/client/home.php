@@ -144,6 +144,23 @@
         border-radius: 100%!important;
         background: grey!important;
     }
+
+
+    .share-wrapper {
+        display: none;
+        width: 100%;
+        top:0;
+        bottom:0;
+        position: absolute;              
+        align-items: center;
+        justify-content: center;  
+        background: white;
+        border: 1px solid grey;
+    }    
+
+    a:hover {
+        cursor: pointer;
+    }
     
 </style>
 
@@ -199,27 +216,38 @@
 <!-- PODCAST LIST -->
 <div class="container my-3">
     <div class="row">
-        <?php $i=1; foreach($albums as $album): ?>
+        <?php $i=0; foreach($albums as $album): ?>
             <div class="col-sm-12 col-md-6 py-2 px-2 wrapper-podcast">            
                 <div class="thumbnail-image my-1" style="position:relative;background-image:url('<?=base_url()?>upload/<?=$album->image?>')">
                 
                     <div class="zoom-view d-flex justify-content-center align-items-center">
-                        <a href="<?=base_url()?>podcast/album/<?=$album->album_id?>/<?=$album->podcasts[$i]->podcast_id?>" class="px-3">
+                        <a href="<?=base_url()?>podcast/album/<?=$album->album_id?>/<?=$album->podcasts[1]->podcast_id?>" class="px-3">
                             <i class="fa text-primary fa-play-circle" style="font-size:60px"></i>
                         </a>
                         <a href="#" class="px-3">
                             <i class="fa fa-plus-circle text-white" style="font-size:60px"></i>
                         </a>
-                        <a href="#" class="px-3">
+                        <a class="px-3" onclick="showShare('<?=$i++?>')">
                             <i class="fa fa-share-square-o text-white" style="font-size:60px"></i>
                         </a>
+
+                        <div class="share-wrapper flex-column">
+                            <div>
+                                <a href="https://www.facebook.com/sharer.php?u=<?=base_url()?>podcast/album/<?=$album->album_id?>/<?=$album->podcasts[1]->podcast_id?>" target="_blank"><img src="https://4.bp.blogspot.com/-raFYZvIFUV0/UwNI2ek6i3I/AAAAAAAAGSA/zs-kwq0q58E/s1600/facebook.png" alt="Facebook" /></a> 
+
+                                <a href="https://twitter.com/share?url=<?=base_url()?>podcast/album/<?=$album->album_id?>/<?=$album->podcasts[1]->podcast_id?>&text=<?=$album->title?>" target="_blank"><img src="https://4.bp.blogspot.com/--ISQEurz3aE/UwNI4hDaQMI/AAAAAAAAGS4/ZAgmPiM9Xpk/s1600/twitter.png" alt="Twitter" /></a> 
+                            </div>       
+                            <button class="btn btn-sm btn-danger btn-close-share">close</button>
+                        </div>
+
+
                         <a href="" class="px-3">
                             <i class="fa fa-download text-white" style="font-size:60px"></i>
                         </a>
                     </div>
                 </div>                
-                <div class="text-primary"><span class="font-weight-bold"><?=$album->title?></span>: <?=$album->podcasts[$i]->podcast_title?></div>
-                <div class="text-secondary">Podcaster #<?=$album->podcasts[$i]->podcast_announcer?></div>
+                <div class="text-primary"><span class="font-weight-bold"><?=$album->title?></span>: <?=$album->podcasts[1]->podcast_title?></div>
+                <div class="text-secondary">Podcaster #<?=$album->podcasts[1]->podcast_announcer?></div>
             </div>
         <?php endforeach; ?>
     </div>
@@ -263,8 +291,18 @@
             loop: true,
             autoplayHoverPause: true            
         });
+
+        
     })
 
+
+
+    function showShare(index) {        
+        $(".share-wrapper").eq(index).css("display", "flex");            
+    }
+    $(".btn-close-share").click(function() {
+        $(".share-wrapper").css("display", "none");            
+    })
 
 
     // SCROLL
@@ -280,4 +318,8 @@
             })
         });
     })
+
+
+
+    
 </script>
