@@ -41,9 +41,9 @@ class Podcast extends CI_Controller {
 		$this->db->insert('rating', [
 			'id' => '',
 			'podcast_id' => $podcast_id,
-			'reviewer' => $this->input->post('reviewer_name'),
+			'reviewer' => htmlspecialchars($this->input->post('reviewer_name')),
 			'rate' => $this->input->post('rating'),
-			'message' => $this->input->post('message')
+			'message' => htmlspecialchars($this->input->post('message'))
 		]);
 
 		redirect(base_url().'podcast/album/'.$album_id.'/'.$podcast_id);
