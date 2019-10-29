@@ -33,7 +33,7 @@
                         </td>
                         <td><?=$podcast->podcast_announcer?></td>
                         <td>
-                            <a onclick="return confirm('Hapus Podcast <?=$podcast->podcast_title?>')" class="btn btn-danger btn-sm" href="<?=base_url()?>admin/deletePodcast?id=<?=$podcast->podcast_id?>file=<?=$podcast->file?>" style="color:white;">HAPUS</a>
+                            <a onclick="return confirm('Hapus Podcast <?=$podcast->podcast_title?>')" class="btn btn-danger btn-sm" href="<?=base_url()?>admin/deletePodcast?id=<?=$podcast->podcast_id?>&file=<?=$podcast->file?>" style="color:white;">HAPUS</a>
                             <a class="btn btn-primary btn-sm" href="" style="color:white;">DETAIL</a>
                         </td>
                     </tr>
